@@ -1,0 +1,13 @@
+binary sort algo
+
+
+algorithm  bubblesort(A[],n)
+{
+1. for(pass=1 to n-1)
+1.1
+for(j=0 to n-1-pass)
+1.1.1if(a[j]>a[j+1])
+1.1.1.1 temp=a[j];
+	a[j]=a[j+1];
+	a[j+1]=temp;
+}
