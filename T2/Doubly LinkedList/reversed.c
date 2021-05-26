@@ -14,7 +14,7 @@ struct node * next;
 * Functions used in this program
 */
 void createList(int n);
-void displayList();
+void display();
 void reverseList();
 
 int main()
@@ -40,16 +40,15 @@ scanf("%d", &choice);
 switch(choice)
 {
 case 1:
-printf("Enter the total number of nodes in list: ");
-scanf("%d", &n);
 
-createList(n);
+
+createList();
 break;
 case 2:
 reverseList();
 break;
 case 3:
-displayList();
+display();
 break;
 case 0:
 break;
@@ -65,64 +64,51 @@ return 0;
 * Creates a doubly linked list of n nodes.
 * @n Number of nodes to be created
 */
-void createList(int n)
-{
-int i, data;
-struct node *newNode;
-if(n >= 1)
-{
-/*
-* Create and link head node
-*/
-head = (struct node *)malloc(sizeof(struct node));
-printf("Enter data of 1 node: ");
-scanf("%d", &data);
-head->data = data;
-head->prev = NULL;
-head->next = NULL;
-last = head;
-/*
-* Create and link rest of the n-1 nodes
-*/
-for(i=2; i<=n; i++)
-{
-newNode = (struct node *)malloc(sizeof(struct node));
 
-printf("Enter data of %d node:" , i);
-scanf("%d", &data);
-newNode->data = data;
-newNode->prev = last; // Link new node with the previous node
-newNode->next = NULL;
-last->next = newNode; // Link previous node with the new node
-last = newNode; // Make new node as last/previous node
-}
-printf("\nDOUBLY LINKED LIST CREATED SUCCESSFULLY\n");
-}
-}
 
 /**
 * Display the content of the list from beginning to end
 */
-void displayList()
+void createList()
 {
-struct node * temp;
-int n = 1;
-if(head == NULL)
-{
-printf("List is empty.\n");
+    struct node *newnode,*temp;
+    newnode=(struct node *)malloc(sizeof(struct node));
+    printf("enter the data for node \n");
+    scanf("%d",&newnode->data);
+    newnode->prev=NULL;
+    newnode->next=NULL;
+    if(head==NULL)
+    {
+        temp=head;
+        newnode=head;
+    }
+    else
+    {
+        temp=head;
+        temp->next=newnode;
+        newnode->prev=temp;
+        temp=newnode;
+    }
 }
-else
+void display()
 {
-temp = head;
-printf("DATA IN THE LIST:\n");
-while(temp != NULL)
-{
-printf("DATA of %d node = %d\n", n, temp->data);
-n++;
-/* Move pointer to next node */
-temp = temp->next;
-}
-}
+    struct node * temp;
+    if(head == NULL)
+    {
+        printf("List is empty.\n");
+    }
+    else
+    {
+        temp = head;
+        printf("DATA IN THE LIST:\n");
+
+        while(temp != NULL)
+        {
+            printf("%d\n",temp->data);
+
+        temp = temp->next;
+        }
+    }
 }
 
 /**
