@@ -1,19 +1,14 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-/*
-* Basic structure of Node
-*/
-struct node {
-int data;
-struct node * prev;
-struct node * next;
+struct node{
+    int data;
+    struct node *prev;
+    struct node *next;
 }*head, *last;
 
-/*
-* Functions used in this program
-*/
-void createList(int n);
+
+void create(int n);
 void display();
 void reverseList();
 
@@ -40,9 +35,9 @@ scanf("%d", &choice);
 switch(choice)
 {
 case 1:
-
-
-createList();
+printf("Enter the no of nodes :\t");
+scanf("%d", &n);
+create(n);
 break;
 case 2:
 reverseList();
@@ -59,82 +54,57 @@ printf("\n\n\n\n\n");
 }
 return 0;
 }
-
-/**
-* Creates a doubly linked list of n nodes.
-* @n Number of nodes to be created
-*/
-
-
-/**
-* Display the content of the list from beginning to end
-*/
-void createList()
+void create(int n)
 {
-    struct node *newnode,*temp;
-    newnode=(struct node *)malloc(sizeof(struct node));
-    printf("enter the data for node \n");
-    scanf("%d",&newnode->data);
-    newnode->prev=NULL;
-    newnode->next=NULL;
-    if(head==NULL)
-    {
-        temp=head;
-        newnode=head;
+    struct node *newNode;
+    if(n>=1){
+        head=(struct node *)malloc(sizeof(struct node));
+        printf("Enter the data of first node: \t");
+        scanf("%d", &head->data);
+        head->prev=NULL;
+        head->next=NULL;
+        last=head;
+    int i;
+    for(i=2; i<=n;i++){
+        newNode=(struct node *)malloc(sizeof(struct node));
+        printf("Enter the data of %d node : \t", i);
+        scanf("%d", &newNode->data);
+        newNode->prev=last;
+        newNode->next=NULL;
+        last->next=newNode;
+        last=newNode;
     }
-    else
-    {
-        temp=head;
-        temp->next=newnode;
-        newnode->prev=temp;
-        temp=newnode;
     }
 }
-void display()
-{
-    struct node * temp;
-    if(head == NULL)
-    {
-        printf("List is empty.\n");
+
+void display(){
+    struct node *temp;
+    if(head==NULL){
+        printf("List is Empty\n");
+        return;
     }
-    else
-    {
-        temp = head;
-        printf("DATA IN THE LIST:\n");
-
-        while(temp != NULL)
-        {
-            printf("%d\n",temp->data);
-
-        temp = temp->next;
+    else{
+        temp=head;
+        printf("Data in the list is: \n");
+        while(temp!=NULL){
+            printf("%d \n", temp->data);
+            temp=temp->next;
         }
     }
 }
 
-/**
-* Reverse order of the doubly linked list
-*/
-void reverseList()
-{
+void reverseList(){
+    struct node *current, *temp;
+    current=head;
+    while(current!=NULL){
+        temp=current->next;
+        current->next=current->prev;
+        current->prev=temp;
+        current=temp;
+    }
+    temp=head;
+    head=last;
+    last=temp;
+    printf("Linked list reversed successfully");
+}
 
-struct node *current, *temp;
-current = head;
-while(current != NULL)
-{
-/*
-* Swap the previous and next address fields of current node
-*/
-temp = current->next;
-current->next = current->prev;
-current->prev = temp;
-/* Move the current pointer to next node which is stored in temp */
-current = temp;
-}
-/*
-* Swap the head and last pointers
-*/
-temp = head;
-head = last;
-last = temp;
-printf("LIST REVERSED SUCCESSFULLY.\n");
-}
